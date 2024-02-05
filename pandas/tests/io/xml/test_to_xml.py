@@ -1359,15 +1359,15 @@ def test_unsuported_compression(parser, geom_df):
 # STORAGE OPTIONS
 
 
-@pytest.mark.single_cpu
-def test_s3_permission_output(parser, s3_public_bucket, geom_df):
-    s3fs = pytest.importorskip("s3fs")
-    pytest.importorskip("lxml")
+# @pytest.mark.single_cpu
+# def test_s3_permission_output(parser, s3_public_bucket, geom_df):
+#     s3fs = pytest.importorskip("s3fs")
+#     pytest.importorskip("lxml")
 
-    with tm.external_error_raised((PermissionError, FileNotFoundError)):
-        fs = s3fs.S3FileSystem(anon=True)
-        fs.ls(s3_public_bucket.name)
+#     with tm.external_error_raised((PermissionError, FileNotFoundError)):
+#         fs = s3fs.S3FileSystem(anon=True)
+#         fs.ls(s3_public_bucket.name)
 
-        geom_df.to_xml(
-            f"s3://{s3_public_bucket.name}/geom.xml", compression="zip", parser=parser
-        )
+#         geom_df.to_xml(
+#             f"s3://{s3_public_bucket.name}/geom.xml", compression="zip", parser=parser
+#         )

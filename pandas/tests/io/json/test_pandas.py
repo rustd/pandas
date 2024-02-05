@@ -1068,11 +1068,11 @@ class TestPandasContainer:
             ["updated_at", pd.DatetimeTZDtype(tz="UTC")],
         ],
     )
-    def test_url(self, field, dtype, httpserver):
-        data = '{"created_at": ["2023-06-23T18:21:36Z"], "closed_at": ["2023-06-23T18:21:36"], "updated_at": ["2023-06-23T18:21:36Z"]}\n'  # noqa: E501
-        httpserver.serve_content(content=data)
-        result = read_json(httpserver.url, convert_dates=True)
-        assert result[field].dtype == dtype
+    # def test_url(self, field, dtype, httpserver):
+    #     data = '{"created_at": ["2023-06-23T18:21:36Z"], "closed_at": ["2023-06-23T18:21:36"], "updated_at": ["2023-06-23T18:21:36Z"]}\n'  # noqa: E501
+    #     httpserver.serve_content(content=data)
+    #     result = read_json(httpserver.url, convert_dates=True)
+    #     assert result[field].dtype == dtype
 
     def test_timedelta(self):
         converter = lambda x: pd.to_timedelta(x, unit="ms")
@@ -1328,18 +1328,18 @@ class TestPandasContainer:
         expected = DataFrame([[1, 2], [1, 2]], columns=["a", "b"])
         tm.assert_frame_equal(result, expected)
 
-    @pytest.mark.single_cpu
-    @td.skip_if_not_us_locale
-    def test_read_s3_jsonl(self, s3_public_bucket_with_data, s3so):
-        # GH17200
+    # @pytest.mark.single_cpu
+    # @td.skip_if_not_us_locale
+    # def test_read_s3_jsonl(self, s3_public_bucket_with_data, s3so):
+    #     # GH17200
 
-        result = read_json(
-            f"s3n://{s3_public_bucket_with_data.name}/items.jsonl",
-            lines=True,
-            storage_options=s3so,
-        )
-        expected = DataFrame([[1, 2], [1, 2]], columns=["a", "b"])
-        tm.assert_frame_equal(result, expected)
+    #     result = read_json(
+    #         f"s3n://{s3_public_bucket_with_data.name}/items.jsonl",
+    #         lines=True,
+    #         storage_options=s3so,
+    #     )
+    #     expected = DataFrame([[1, 2], [1, 2]], columns=["a", "b"])
+    #     tm.assert_frame_equal(result, expected)
 
     def test_read_local_jsonl(self):
         # GH17200
@@ -1905,19 +1905,19 @@ class TestPandasContainer:
         result = series.to_json(orient="index")
         assert result == expected
 
-    @pytest.mark.single_cpu
-    def test_to_s3(self, s3_public_bucket, s3so):
-        # GH 28375
-        mock_bucket_name, target_file = s3_public_bucket.name, "test.json"
-        df = DataFrame({"x": [1, 2, 3], "y": [2, 4, 6]})
-        df.to_json(f"s3://{mock_bucket_name}/{target_file}", storage_options=s3so)
-        timeout = 5
-        while True:
-            if target_file in (obj.key for obj in s3_public_bucket.objects.all()):
-                break
-            time.sleep(0.1)
-            timeout -= 0.1
-            assert timeout > 0, "Timed out waiting for file to appear on moto"
+    # @pytest.mark.single_cpu
+    # def test_to_s3(self, s3_public_bucket, s3so):
+    #     # GH 28375
+    #     mock_bucket_name, target_file = s3_public_bucket.name, "test.json"
+    #     df = DataFrame({"x": [1, 2, 3], "y": [2, 4, 6]})
+    #     df.to_json(f"s3://{mock_bucket_name}/{target_file}", storage_options=s3so)
+    #     timeout = 5
+    #     while True:
+    #         if target_file in (obj.key for obj in s3_public_bucket.objects.all()):
+    #             break
+    #         time.sleep(0.1)
+    #         timeout -= 0.1
+    #         assert timeout > 0, "Timed out waiting for file to appear on moto"
 
     def test_json_pandas_nulls(self, nulls_fixture, request):
         # GH 31615

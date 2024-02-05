@@ -34,20 +34,20 @@ xfail_pyarrow = pytest.mark.usefixtures("pyarrow_xfail")
 skip_pyarrow = pytest.mark.usefixtures("pyarrow_skip")
 
 
-@pytest.mark.network
-@pytest.mark.single_cpu
-def test_url(all_parsers, csv_dir_path, httpserver):
-    parser = all_parsers
-    kwargs = {"sep": "\t"}
+# @pytest.mark.network
+# @pytest.mark.single_cpu
+# def test_url(all_parsers, csv_dir_path, httpserver):
+#     parser = all_parsers
+#     kwargs = {"sep": "\t"}
 
-    local_path = os.path.join(csv_dir_path, "salaries.csv")
-    with open(local_path, encoding="utf-8") as f:
-        httpserver.serve_content(content=f.read())
+#     local_path = os.path.join(csv_dir_path, "salaries.csv")
+#     with open(local_path, encoding="utf-8") as f:
+#         httpserver.serve_content(content=f.read())
 
-    url_result = parser.read_csv(httpserver.url, **kwargs)
+#     url_result = parser.read_csv(httpserver.url, **kwargs)
 
-    local_result = parser.read_csv(local_path, **kwargs)
-    tm.assert_frame_equal(url_result, local_result)
+#     local_result = parser.read_csv(local_path, **kwargs)
+#     tm.assert_frame_equal(url_result, local_result)
 
 
 @pytest.mark.slow

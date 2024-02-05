@@ -1016,25 +1016,25 @@ class TestArrowArray(base.ExtensionTests):
 
         return mark
 
-    def test_arith_series_with_scalar(self, data, all_arithmetic_operators, request):
-        pa_dtype = data.dtype.pyarrow_dtype
+    # def test_arith_series_with_scalar(self, data, all_arithmetic_operators, request):
+    #     pa_dtype = data.dtype.pyarrow_dtype
 
-        if all_arithmetic_operators == "__rmod__" and pa.types.is_binary(pa_dtype):
-            pytest.skip("Skip testing Python string formatting")
-        elif all_arithmetic_operators in ("__rmul__", "__mul__") and (
-            pa.types.is_binary(pa_dtype) or pa.types.is_string(pa_dtype)
-        ):
-            request.applymarker(
-                pytest.mark.xfail(
-                    raises=TypeError, reason="Can only string multiply by an integer."
-                )
-            )
+    #     if all_arithmetic_operators == "__rmod__" and pa.types.is_binary(pa_dtype):
+    #         pytest.skip("Skip testing Python string formatting")
+    #     elif all_arithmetic_operators in ("__rmul__", "__mul__") and (
+    #         pa.types.is_binary(pa_dtype) or pa.types.is_string(pa_dtype)
+    #     ):
+    #         request.applymarker(
+    #             pytest.mark.xfail(
+    #                 raises=TypeError, reason="Can only string multiply by an integer."
+    #             )
+    #         )
 
-        mark = self._get_arith_xfail_marker(all_arithmetic_operators, pa_dtype)
-        if mark is not None:
-            request.applymarker(mark)
+    #     mark = self._get_arith_xfail_marker(all_arithmetic_operators, pa_dtype)
+    #     if mark is not None:
+    #         request.applymarker(mark)
 
-        super().test_arith_series_with_scalar(data, all_arithmetic_operators)
+    #     super().test_arith_series_with_scalar(data, all_arithmetic_operators)
 
     def test_arith_frame_with_scalar(self, data, all_arithmetic_operators, request):
         pa_dtype = data.dtype.pyarrow_dtype

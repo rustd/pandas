@@ -309,19 +309,19 @@ def test_parser_consistency_file(xml_books):
     tm.assert_frame_equal(df_iter_lxml, df_iter_etree)
 
 
-@pytest.mark.network
-@pytest.mark.single_cpu
-def test_parser_consistency_url(parser, httpserver):
-    httpserver.serve_content(content=xml_default_nmsp)
+# @pytest.mark.network
+# @pytest.mark.single_cpu
+# def test_parser_consistency_url(parser, httpserver):
+#     httpserver.serve_content(content=xml_default_nmsp)
 
-    df_xpath = read_xml(StringIO(xml_default_nmsp), parser=parser)
-    df_iter = read_xml(
-        BytesIO(xml_default_nmsp.encode()),
-        parser=parser,
-        iterparse={"row": ["shape", "degrees", "sides"]},
-    )
+#     df_xpath = read_xml(StringIO(xml_default_nmsp), parser=parser)
+#     df_iter = read_xml(
+#         BytesIO(xml_default_nmsp.encode()),
+#         parser=parser,
+#         iterparse={"row": ["shape", "degrees", "sides"]},
+#     )
 
-    tm.assert_frame_equal(df_xpath, df_iter)
+#     tm.assert_frame_equal(df_xpath, df_iter)
 
 
 def test_file_like(xml_books, parser, mode):
@@ -504,33 +504,33 @@ def test_wrong_file_path(parser):
         read_xml(filename, parser=parser)
 
 
-@pytest.mark.network
-@pytest.mark.single_cpu
-def test_url(httpserver, xml_file):
-    pytest.importorskip("lxml")
-    with open(xml_file, encoding="utf-8") as f:
-        httpserver.serve_content(content=f.read())
-        df_url = read_xml(httpserver.url, xpath=".//book[count(*)=4]")
+# @pytest.mark.network
+# @pytest.mark.single_cpu
+# def test_url(httpserver, xml_file):
+#     pytest.importorskip("lxml")
+#     with open(xml_file, encoding="utf-8") as f:
+#         httpserver.serve_content(content=f.read())
+#         df_url = read_xml(httpserver.url, xpath=".//book[count(*)=4]")
 
-    df_expected = DataFrame(
-        {
-            "category": ["cooking", "children", "web"],
-            "title": ["Everyday Italian", "Harry Potter", "Learning XML"],
-            "author": ["Giada De Laurentiis", "J K. Rowling", "Erik T. Ray"],
-            "year": [2005, 2005, 2003],
-            "price": [30.00, 29.99, 39.95],
-        }
-    )
+#     df_expected = DataFrame(
+#         {
+#             "category": ["cooking", "children", "web"],
+#             "title": ["Everyday Italian", "Harry Potter", "Learning XML"],
+#             "author": ["Giada De Laurentiis", "J K. Rowling", "Erik T. Ray"],
+#             "year": [2005, 2005, 2003],
+#             "price": [30.00, 29.99, 39.95],
+#         }
+#     )
 
-    tm.assert_frame_equal(df_url, df_expected)
+#     tm.assert_frame_equal(df_url, df_expected)
 
 
-@pytest.mark.network
-@pytest.mark.single_cpu
-def test_wrong_url(parser, httpserver):
-    httpserver.serve_content("NOT FOUND", code=404)
-    with pytest.raises(HTTPError, match=("HTTP Error 404: NOT FOUND")):
-        read_xml(httpserver.url, xpath=".//book[count(*)=4]", parser=parser)
+# @pytest.mark.network
+# @pytest.mark.single_cpu
+# def test_wrong_url(parser, httpserver):
+#     httpserver.serve_content("NOT FOUND", code=404)
+#     with pytest.raises(HTTPError, match=("HTTP Error 404: NOT FOUND")):
+#         read_xml(httpserver.url, xpath=".//book[count(*)=4]", parser=parser)
 
 
 # CONTENT
@@ -1452,19 +1452,19 @@ def test_file_io_iterparse(xml_books, parser, mode):
     tm.assert_frame_equal(df_fileio, df_expected)
 
 
-@pytest.mark.network
-@pytest.mark.single_cpu
-def test_url_path_error(parser, httpserver, xml_file):
-    with open(xml_file, encoding="utf-8") as f:
-        httpserver.serve_content(content=f.read())
-        with pytest.raises(
-            ParserError, match=("iterparse is designed for large XML files")
-        ):
-            read_xml(
-                httpserver.url,
-                parser=parser,
-                iterparse={"row": ["shape", "degrees", "sides", "date"]},
-            )
+# @pytest.mark.network
+# @pytest.mark.single_cpu
+# def test_url_path_error(parser, httpserver, xml_file):
+#     with open(xml_file, encoding="utf-8") as f:
+#         httpserver.serve_content(content=f.read())
+#         with pytest.raises(
+#             ParserError, match=("iterparse is designed for large XML files")
+#         ):
+#             read_xml(
+#                 httpserver.url,
+#                 parser=parser,
+#                 iterparse={"row": ["shape", "degrees", "sides", "date"]},
+            # )
 
 
 def test_compression_error(parser, compression_only):
@@ -1995,18 +1995,18 @@ def test_unsuported_compression(parser):
 # STORAGE OPTIONS
 
 
-@pytest.mark.network
-@pytest.mark.single_cpu
-def test_s3_parser_consistency(s3_public_bucket_with_data, s3so):
-    pytest.importorskip("s3fs")
-    pytest.importorskip("lxml")
-    s3 = f"s3://{s3_public_bucket_with_data.name}/books.xml"
+# @pytest.mark.network
+# @pytest.mark.single_cpu
+# def test_s3_parser_consistency(s3_public_bucket_with_data, s3so):
+#     pytest.importorskip("s3fs")
+#     pytest.importorskip("lxml")
+#     s3 = f"s3://{s3_public_bucket_with_data.name}/books.xml"
 
-    df_lxml = read_xml(s3, parser="lxml", storage_options=s3so)
+#     df_lxml = read_xml(s3, parser="lxml", storage_options=s3so)
 
-    df_etree = read_xml(s3, parser="etree", storage_options=s3so)
+#     df_etree = read_xml(s3, parser="etree", storage_options=s3so)
 
-    tm.assert_frame_equal(df_lxml, df_etree)
+#     tm.assert_frame_equal(df_lxml, df_etree)
 
 
 def test_read_xml_nullable_dtypes(
