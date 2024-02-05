@@ -1058,16 +1058,16 @@ class TestPandasContainer:
             res = res.fillna(np.nan, downcast=False)
         tm.assert_frame_equal(res, df)
 
-    @pytest.mark.network
-    @pytest.mark.single_cpu
-    @pytest.mark.parametrize(
-        "field,dtype",
-        [
-            ["created_at", pd.DatetimeTZDtype(tz="UTC")],
-            ["closed_at", "datetime64[ns]"],
-            ["updated_at", pd.DatetimeTZDtype(tz="UTC")],
-        ],
-    )
+    # @pytest.mark.network
+    # @pytest.mark.single_cpu
+    # @pytest.mark.parametrize(
+    #     "field,dtype",
+    #     [
+    #         ["created_at", pd.DatetimeTZDtype(tz="UTC")],
+    #         ["closed_at", "datetime64[ns]"],
+    #         ["updated_at", pd.DatetimeTZDtype(tz="UTC")],
+    #     ],
+    # )
     # def test_url(self, field, dtype, httpserver):
     #     data = '{"created_at": ["2023-06-23T18:21:36Z"], "closed_at": ["2023-06-23T18:21:36"], "updated_at": ["2023-06-23T18:21:36Z"]}\n'  # noqa: E501
     #     httpserver.serve_content(content=data)
