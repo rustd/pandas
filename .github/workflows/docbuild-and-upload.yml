@@ -1,16 +1,7 @@
 name: Doc Build and Upload
 
 on:
-  push:
-    branches:
-      - main
-      - 2.2.x
-    tags:
-      - '*'
-  pull_request:
-    branches:
-      - main
-      - 2.2.x
+  workflow_dispatch:
 
 env:
   ENV_FILE: environment.yml
