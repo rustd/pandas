@@ -23,12 +23,10 @@ jobs:
 
     - name: Extra installs
       run: sudo apt-get update && sudo apt-get install -y ${{ matrix.extra_apt }}
-      if: ${{ matrix.extra_apt }}
 
     - name: Generate extra locales
       # These extra locales will be available for locale.setlocale() calls in tests
       run: sudo locale-gen ${{ matrix.extra_loc }}
-      if: ${{ matrix.extra_loc }}
 
     - name: Set up Conda
       uses: ./.github/actions/setup-conda
@@ -44,7 +42,6 @@ jobs:
 
     - name: Test (not single_cpu)
       uses: ./.github/actions/run-tests
-      if: ${{ matrix.name != 'Pypy' }}
       with:
         preload: ${{ matrix.preload }}
         asan_options: ${{ matrix.asan_options }}
